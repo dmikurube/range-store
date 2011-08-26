@@ -1,0 +1,2 @@
+# Usage:
+./maps.rb < /proc/(pid)/maps | ./a.out - /proc/(pid)/pagemap
