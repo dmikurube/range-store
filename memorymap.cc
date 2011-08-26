@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <string>
+#include <iterator>
 #include <map>
 #include <unistd.h>
 #include <sys/types.h>
@@ -12,9 +13,9 @@
 #define PAGE_SIZE 4096
 
 #if defined(__LP64__) && !defined(OS_MACOSX)
-typedef long                int64;
+typedef long int64;
 #else
-typedef long long           int64;
+typedef long long int64;
 #endif
 
 #if defined(__LP64__) && !defined(OS_MACOSX)
@@ -29,6 +30,32 @@ struct MemoryInclusiveRange : public std::pair<uint64, uint64> {
   bool operator<(const MemoryInclusiveRange& other) const {
     return second < other.first;
   }
+};
+
+template <typename A, typename B>
+class MergedMap2 {
+ public:
+  class MergedIterator
+      : public std::iterator<std::input_iterator_tag, MergedMap2<A, B>, void> {
+    // ...
+  };
+
+  MergedMap2(std::map<MemoryInclusiveRange, A> map_a,
+             std::map<MemoryInclusiveRange, B> map_b)
+      : map_a_(map_a), map_b_(map_b) {
+  }
+
+  MergedIterator begin() {
+    // ...
+  }
+
+  MergedIterator end() {
+    // ...
+  }
+
+ private:
+  std::map<MemoryInclusiveRange, A> map_a_;
+  std::map<MemoryInclusiveRange, B> map_b_;
 };
 
 struct MapsEntry {
